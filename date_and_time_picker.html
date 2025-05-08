@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date and Time Picker</title>
+    <style>
+        .picker-container {
+            background-color: #34495e;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            max-width: 350px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tab-header {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background-color: #2c3e50;
+            color: #95a5a6;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .tab.active {
+            background-color: #2c3e50;
+            color: white;
+        }
+        
+        .tab-icon {
+            margin-right: 5px;
+        }
+        
+        .month-navigator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .nav-btn {
+            width: 25px;
+            height: 25px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .month-label {
+            font-size: 16px;
+        }
+        
+        .calendar {
+            width: 100%;
+            border-collapse: collapse;
+            color: white;
+        }
+        
+        .calendar th {
+            font-weight: normal;
+            color: #95a5a6;
+            padding: 5px;
+            text-align: center;
+        }
+        
+        .calendar td {
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+        }
+        
+        .calendar td:hover {
+            background-color: #3498db;
+        }
+        
+        .calendar td.selected {
+            background-color: #3498db;
+        }
+        
+        .calendar td.inactive {
+            color: #546778;
+        }
+        
+        .time-container {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .time-dropdowns {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .dropdown-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .dropdown-button {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            width: 80px;
+            text-align: center;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #2c3e50;
+            min-width: 80px;
+            max-height: 200px;
+            overflow-y: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+            left: 0;
+        }
+        
+        .dropdown-content.show {
+            display: block;
+        }
+        
+        .dropdown-item {
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #3498db;
+        }
+        
+        .time-separator {
+            font-size: 24px;
+            margin: 0 5px;
+        }
+        
+        .am-pm-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .toggle-label {
+            margin-left: 10px;
+        }
+        
+        .toggle {
+            width: 60px;
+            height: 30px;
+            background-color: #2c3e50;
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .toggle-thumb {
+            width: 26px;
+            height: 26px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            transition: transform 0.3s;
+        }
+        
+        .action-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #1abc9c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .action-btn:hover {
+            background-color: #16a085;
+        }
+        
+        .check-icon {
+            margin-right: 5px;
+        }
+        
+        #time-picker {
+            display: none;
+        }
+        
+        .selected-info {
+            color: white;
+            background-color: #2c3e50;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .back-btn {
+            background-color: #34495e;
+            border: 1px solid #1abc9c;
+            color: #1abc9c;
+        }
+        
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 800px;
+            width: 100%;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="picker-container">
+        <!-- Date Picker -->
+        <div class="picker-container" id="date-picker">
+            <div class="tab-header">
+                <div class="tab active" id="date-tab">
+                    <span class="tab-icon">📅</span> Date
+                </div>
+                <div class="tab" id="time-tab">
+                    <span class="tab-icon">🕒</span> Time
+                </div>
+            </div>
+            
+            <div class="month-navigator">
+                <button class="nav-btn">&#10094;</button>
+                <span class="month-label">February 2014</span>
+                <button class="nav-btn">&#10095;</button>
+            </div>
+            
+            <table class="calendar">
+                <thead>
+                    <tr>
+                        <th>Mo</th>
+                        <th>Tu</th>
+                        <th>We</th>
+                        <th>Th</th>
+                        <th>Fr</th>
+                        <th>Sa</th>
+                        <th>Su</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="inactive">1</td>
+                        <td class="inactive">2</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6</td>
+                        <td>7</td>
+                        <td>8</td>
+                        <td>9</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>11</td>
+                        <td>12</td>
+                        <td>13</td>
+                        <td>14</td>
+                        <td>15</td>
+                        <td>16</td>
+                    </tr>
+                    <tr>
+                        <td>17</td>
+                        <td>18</td>
+                        <td>19</td>
+                        <td class="selected">20</td>
+                        <td>21</td>
+                        <td>22</td>
+                        <td>23</td>
+                    </tr>
+                    <tr>
+                        <td>24</td>
+                        <td>25</td>
+                        <td>26</td>
+                        <td>27</td>
+                        <td>28</td>
+                        <td class="inactive">1</td>
+                        <td class="inactive">2</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button class="action-btn" id="next-btn">
+                Next
+            </button>
+        </div>
+        
+        <!-- Time Picker -->
+        <div class="picker-container" id="time-picker">
+            <div class="tab-header">
+                <div class="tab" id="date-tab-from-time">
+                    <span class="tab-icon">📅</span> Date
+                </div>
+                <div class="tab active" id="time-tab-from-date">
+                    <span class="tab-icon">🕒</span> Time
+                </div>
+            </div>
+            
+            <div class="time-container">
+                <h3>Select Time</h3>
+                
+                <div class="time-dropdowns">
+                    <div class="dropdown-container">
+                        <button class="dropdown-button" id="hours-btn">05</button>
+                        <div class="dropdown-content" id="hours-dropdown">
+                            <div class="dropdown-item">01</div>
+                            <div class="dropdown-item">02</div>
+                            <div class="dropdown-item">03</div>
+                            <div class="dropdown-item">04</div>
+                            <div class="dropdown-item">05</div>
+                            <div class="dropdown-item">06</div>
+                            <div class="dropdown-item">07</div>
+                            <div class="dropdown-item">08</div>
+                            <div class="dropdown-item">09</div>
+                            <div class="dropdown-item">10</div>
+                            <div class="dropdown-item">11</div>
+                            <div class="dropdown-item">12</div>
+                        </div>
+                    </div>
+                    
+                    <span class="time-separator">:</span>
+                    
+                    <div class="dropdown-container">
+                        <button class="dropdown-button" id="minutes-btn">30</button>
+                        <div class="dropdown-content" id="minutes-dropdown">
+                            <div class="dropdown-item">00</div>
+                            <div class="dropdown-item">15</div>
+                            <div class="dropdown-item">30</div>
+                            <div class="dropdown-item">45</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="am-pm-toggle">
+                    <div class="toggle" id="am-pm-toggle">
+                        <div class="toggle-thumb"></div>
+                    </div>
+                    <span class="toggle-label" id="am-pm-label">PM</span>
+                </div>
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="action-btn back-btn" id="back-to-date-btn">
+                    Back to Date
+                </button>
+                <button class="action-btn" id="save-btn">
+                    <span class="check-icon">✓</span> Save
+                </button>
+            </div>
+            
+            <div class="selected-info" id="selected-info"></div>
+        </div>
+    </div>
+
+    <script>
+        // Variables to store selections
+        let selectedDateValue = "20";
+        let selectedHour = "05";
+        let selectedMinute = "30";
+        let selectedAMPM = "PM";
+        
+        // Date selection
+        document.querySelectorAll('.calendar td:not(.inactive)').forEach(cell => {
+            cell.addEventListener('click', function() {
+                document.querySelectorAll('.calendar td').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedDateValue = this.textContent;
+            });
+        });
+        
+        // Show time picker after selecting date and clicking next
+        document.getElementById('next-btn').addEventListener('click', function() {
+            // Check if a date is selected
+            const selectedDate = document.querySelector('.calendar td.selected');
+            if (selectedDate) {
+                selectedDateValue = selectedDate.textContent;
+                document.getElementById('date-picker').style.display = 'none';
+                document.getElementById('time-picker').style.display = 'block';
+            } else {
+                alert('Please select a date first');
+            }
+        });
+        
+        // Go back to date picker from time picker
+        document.getElementById('back-to-date-btn').addEventListener('click', function() {
+            document.getElementById('time-picker').style.display = 'none';
+            document.getElementById('date-picker').style.display = 'block';
+        });
+        
+        // Tab navigation (Date tab from Time picker)
+        document.getElementById('date-tab-from-time').addEventListener('click', function() {
+            document.getElementById('time-picker').style.display = 'none';
+            document.getElementById('date-picker').style.display = 'block';
+            document.getElementById('date-tab').classList.add('active');
+            document.getElementById('time-tab').classList.remove('active');
+        });
+        
+        // Time tab from Date picker
+        document.getElementById('time-tab').addEventListener('click', function() {
+            const selectedDate = document.querySelector('.calendar td.selected');
+            if (selectedDate) {
+                selectedDateValue = selectedDate.textContent;
+                document.getElementById('date-picker').style.display = 'none';
+                document.getElementById('time-picker').style.display = 'block';
+                document.getElementById('date-tab-from-time').classList.remove('active');
+                document.getElementById('time-tab-from-date').classList.add('active');
+            } else {
+                alert('Please select a date first');
+            }
+        });
+        
+        // Toggle hours dropdown
+        document.getElementById('hours-btn').addEventListener('click', function() {
+            document.getElementById('hours-dropdown').classList.toggle('show');
+            document.getElementById('minutes-dropdown').classList.remove('show');
+        });
+        
+        // Toggle minutes dropdown
+        document.getElementById('minutes-btn').addEventListener('click', function() {
+            document.getElementById('minutes-dropdown').classList.toggle('show');
+            document.getElementById('hours-dropdown').classList.remove('show');
+        });
+        
+        // Close dropdowns when clicking outside
+        window.addEventListener('click', function(e) {
+            if (!e.target.matches('.dropdown-button')) {
+                document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                    }
+                });
+            }
+        });
+        
+        // Select hours
+        document.querySelectorAll('#hours-dropdown .dropdown-item').forEach(item => {
+            item.addEventListener('click', function() {
+                selectedHour = this.textContent;
+                document.getElementById('hours-btn').textContent = selectedHour;
+                document.getElementById('hours-dropdown').classList.remove('show');
+            });
+        });
+        
+        // Select minutes
+        document.querySelectorAll('#minutes-dropdown .dropdown-item').forEach(item => {
+            item.addEventListener('click', function() {
+                selectedMinute = this.textContent;
+                document.getElementById('minutes-btn').textContent = selectedMinute;
+                document.getElementById('minutes-dropdown').classList.remove('show');
+            });
+        });
+        
+        // AM/PM toggle
+        document.getElementById('am-pm-toggle').addEventListener('click', function() {
+            const thumb = this.querySelector('.toggle-thumb');
+            const label = document.getElementById('am-pm-label');
+            
+            if (label.textContent === 'PM') {
+                thumb.style.transform = 'translateX(-30px)';
+                label.textContent = 'AM';
+                selectedAMPM = 'AM';
+            } else {
+                thumb.style.transform = 'translateX(0)';
+                label.textContent = 'PM';
+                selectedAMPM = 'PM';
+            }
+        });
+        
+        // Save button functionality
+        document.getElementById('save-btn').addEventListener('click', function() {
+            const selectedInfo = document.getElementById('selected-info');
+            selectedInfo.textContent = `Selected: February ${selectedDateValue}, 2014 at ${selectedHour}:${selectedMinute} ${selectedAMPM}`;
+            selectedInfo.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

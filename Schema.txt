@@ -1,0 +1,29 @@
+
+{
+  "@context": "http://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "name": "Starr by Tectalik",
+      "url": "https://starr.tectalik.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://starr.tectalik.com/img/logo-light-new.png",
+        "width": 120,
+        "height": 60
+      },
+      "email": "enquiry@tectalik.com",
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "url": "https://starr.tectalik.com/",
+      "name": "Starr by Tectalik",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://starr.tectalik.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}
