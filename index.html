@@ -1130,6 +1130,7 @@
              <a href="https://tectalik.com/demo-request">Get in touch</a>
             <a href="Demo.html">Ask for a Demo</a>
               <!-- Voice Assistant UI -->
+<!-- Voice Assistant UI -->
 <div id="voice-assistant-ui">
     <button id="voice-btn" class="voice-btn" title="Activate Voice Assistant">
       <span class="mic-icon"><i class="fas fa-microphone"></i></span>
@@ -1137,170 +1138,113 @@
     </button>
     <div id="voice-searching-status" class="voice-searching-status"></div>
   </div>
+  
   <style>
-    #voice-assistant-ui {
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
-  z-index: 1050;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  font-family: 'Open Sans', sans-serif;
-}
-
-.voice-btn {
-  background: linear-gradient(135deg, #ff944f 60%, #ff5e62 100%);
-  color: #fff;
-  border: none;
-  outline: none;
-  border-radius: 50%;
-  width: 72px;
-  height: 72px;
-  box-shadow: 0 4px 24px rgba(255,94,98,0.25), 0 1.5px 4px rgba(0,0,0,0.12);
-  cursor: pointer;
-  position: relative;
-  transition: box-shadow 0.3s, transform 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.2rem;
-  overflow: visible;
-  animation: floaty 2.5s ease-in-out infinite;
-}
-
-@keyframes floaty {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0); }
-}
-
-.voice-btn.listening {
-  box-shadow: 0 0 0 8px rgba(255,148,79,0.12), 0 8px 32px rgba(255,94,98,0.35);
-  animation: pulse-glow 1.2s infinite;
-}
-
-@keyframes pulse-glow {
-  0% { box-shadow: 0 0 0 8px rgba(255,148,79,0.18), 0 8px 32px rgba(255,94,98,0.35);}
-  70% { box-shadow: 0 0 0 24px rgba(255,94,98,0.10), 0 8px 32px rgba(255,94,98,0.35);}
-  100% { box-shadow: 0 0 0 8px rgba(255,148,79,0.18), 0 8px 32px rgba(255,94,98,0.35);}
-}
-
-.mic-icon {
-  z-index: 2;
-  position: relative;
-  transition: color 0.2s;
-}
-
-.pulse {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 72px;
-  height: 72px;
-  background: rgba(255,94,98,0.13);
-  border-radius: 50%;
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 0;
-  z-index: 1;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-.voice-btn.listening .pulse {
-  animation: pulse-ring 1.2s infinite;
-  opacity: 1;
-}
-@keyframes pulse-ring {
-  0% {
+  #voice-assistant-ui {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  .voice-btn {
+    background: linear-gradient(135deg, #ff944f 60%, #ff5e62 100%);
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    width: 72px;
+    height: 72px;
+    box-shadow: 0 4px 24px rgba(255,94,98,0.25), 0 1.5px 4px rgba(0,0,0,0.12);
+    cursor: pointer;
+    position: relative;
+    transition: box-shadow 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    overflow: visible;
+    animation: floaty 2.5s ease-in-out infinite;
+  }
+  @keyframes floaty {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+  }
+  .voice-btn.listening {
+    box-shadow: 0 0 0 8px rgba(255,148,79,0.12), 0 8px 32px rgba(255,94,98,0.35);
+    animation: pulse-glow 1.2s infinite;
+  }
+  @keyframes pulse-glow {
+    0% { box-shadow: 0 0 0 8px rgba(255,148,79,0.18), 0 8px 32px rgba(255,94,98,0.35);}
+    70% { box-shadow: 0 0 0 24px rgba(255,94,98,0.10), 0 8px 32px rgba(255,94,98,0.35);}
+    100% { box-shadow: 0 0 0 8px rgba(255,148,79,0.18), 0 8px 32px rgba(255,94,98,0.35);}
+  }
+  .mic-icon {
+    z-index: 2;
+    position: relative;
+    transition: color 0.2s;
+  }
+  .pulse {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 72px;
+    height: 72px;
+    background: rgba(255,94,98,0.13);
+    border-radius: 50%;
     transform: translate(-50%, -50%) scale(1);
-    opacity: 0.8;
-  }
-  80% {
-    transform: translate(-50%, -50%) scale(1.6);
     opacity: 0;
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.3s;
   }
-  100% {
+  .voice-btn.listening .pulse {
+    animation: pulse-ring 1.2s infinite;
+    opacity: 1;
+  }
+  @keyframes pulse-ring {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+    80% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; }
+    100% { opacity: 0; }
+  }
+  .voice-searching-status {
+    margin-top: 16px;
+    background: linear-gradient(90deg, #ff944f 30%, #ff5e62 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    min-width: 200px;
+    box-shadow: 0 2px 12px rgba(255,94,98,0.13);
     opacity: 0;
+    transform: translateY(10px) scale(0.98);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+    letter-spacing: 0.5px;
   }
-}
-
-.voice-searching-status {
-  margin-top: 16px;
-  background: linear-gradient(90deg, #ff944f 30%, #ff5e62 100%);
-  color: #fff;
-  border-radius: 16px;
-  padding: 12px 28px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  min-width: 200px;
-  box-shadow: 0 2px 12px rgba(255,94,98,0.13);
-  opacity: 0;
-  transform: translateY(10px) scale(0.98);
-  transition: opacity 0.3s, transform 0.3s;
-  pointer-events: none;
-  letter-spacing: 0.5px;
-}
-.voice-searching-status.active {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.voice-highlight {
-  background: #ff944f;
-  color: #fff;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: bold;
-  animation: highlight-pop 0.5s;
-}
-@keyframes highlight-pop {
-  0% { background: #fffbe7; color: #ff944f; transform: scale(1.2);}
-  100% { background: #ff944f; color: #fff; transform: scale(1);}
-}
-
-/* Popup for search results */
-#voice-search-popup {
-  position: fixed;
-  bottom: 140px;
-  right: 40px;
-  background: linear-gradient(135deg, #fff 60%, #ffe6e9 100%);
-  border: 2px solid #ff5e62;
-  border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(255,94,98,0.13);
-  padding: 22px 36px;
-  z-index: 9999;
-  font-size: 1.08rem;
-  min-width: 220px;
-  max-width: 360px;
-  opacity: 0;
-  transform: translateY(30px) scale(0.97);
-  animation: popup-in 0.5s forwards;
-}
-@keyframes popup-in {
-  to { opacity: 1; transform: translateY(0) scale(1);}
-}
-.voice-popup-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-#close-voice-popup {
-  background: #ff5e62;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 7px 18px;
-  cursor: pointer;
-  margin-top: 15px;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: background 0.2s;
-}
-#close-voice-popup:hover {
-  background: #ff944f;
-}
-
-  </style>
+  .voice-searching-status.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  .voice-highlight {
+    background: #ff944f;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    animation: highlight-pop 0.5s;
+  }
+  @keyframes highlight-pop {
+    0% { background: #fffbe7; color: #ff944f; transform: scale(1.2);}
+    100% { background: #ff944f; color: #fff; transform: scale(1);}
+  }
+   </style>
         </div>
         <!-- Feature End -->
 
@@ -1622,14 +1566,13 @@
                       voiceStatus.textContent = "Listening...";
                     }
                 
-                    // When final, highlight and show popup
+                    // When final, try to click/move to the element
                     if (event.results[event.results.length - 1].isFinal) {
                       setTimeout(() => {
                         voiceStatus.classList.remove('active');
                       }, 2500);
                 
-                      const words = finalTranscript.toLowerCase().split(/\s+/).filter(Boolean);
-                      highlightAndShowMatches(words);
+                      handleVoiceNavigation(finalTranscript.trim().toLowerCase());
                     }
                   };
                 
@@ -1641,17 +1584,73 @@
                     }, 1000);
                   };
                 
-                  // Highlight and popup logic
+                  // SMART CLICK & SCROLL FUNCTION
+                  function handleVoiceNavigation(command) {
+                    if (!command) return;
+                    // Try to find an exact match in links/buttons/menu
+                    let allClickables = Array.from(document.querySelectorAll('a, button, [role="button"], .dropdown-item, .nav-link, .nav-item'));
+                    let found = false;
+                
+                    // 1. Exact match (case-insensitive, trimmed)
+                    for (let el of allClickables) {
+                      let text = el.innerText.trim().toLowerCase();
+                      if (text === command) {
+                        found = true;
+                        scrollAndClick(el);
+                        break;
+                      }
+                    }
+                
+                    // 2. Partial match (contains)
+                    if (!found) {
+                      for (let el of allClickables) {
+                        let text = el.innerText.trim().toLowerCase();
+                        if (text.includes(command)) {
+                          found = true;
+                          scrollAndClick(el);
+                          break;
+                        }
+                      }
+                    }
+                
+                    // 3. Try word-by-word (for multi-word commands)
+                    if (!found && command.split(/\s+/).length > 1) {
+                      let words = command.split(/\s+/);
+                      for (let word of words) {
+                        for (let el of allClickables) {
+                          let text = el.innerText.trim().toLowerCase();
+                          if (text === word || text.includes(word)) {
+                            found = true;
+                            scrollAndClick(el);
+                            break;
+                          }
+                        }
+                        if (found) break;
+                      }
+                    }
+                
+                    // 4. Highlight and show not found
+                    if (!found) {
+                      highlightAndShowMatches(command.split(/\s+/));
+                    }
+                  }
+                
+                  // Scroll to and click the element, with highlight animation
+                  function scrollAndClick(el) {
+                    el.scrollIntoView({behavior: "smooth", block: "center"});
+                    el.classList.add('voice-highlight');
+                    setTimeout(() => el.classList.remove('voice-highlight'), 2000);
+                    // Click if it's a link or button
+                    if (typeof el.click === "function") el.click();
+                  }
+                
+                  // Highlight all matches if nothing is found
                   function highlightAndShowMatches(words) {
-                    // Remove previous highlights
                     document.querySelectorAll('.voice-highlight').forEach(el => {
                       el.classList.remove('voice-highlight');
-                      el.innerHTML = el.textContent; // Remove span safely
+                      el.innerHTML = el.textContent;
                     });
-                
                     let foundWords = [];
-                    let foundElements = [];
-                
                     words.forEach(word => {
                       if (!word.trim()) return;
                       let regex = new RegExp(`\\b${word}\\b`, 'gi');
@@ -1661,42 +1660,17 @@
                             foundWords.push(match);
                             return `<span class="voice-highlight">${match}</span>`;
                           });
-                          foundElements.push(el);
                         }
                       });
                     });
-                
-                    showVoiceSearchPopup(foundWords, foundElements);
-                  }
-                
-                  function showVoiceSearchPopup(words, elements) {
-                    let old = document.getElementById('voice-search-popup');
-                    if (old) old.remove();
-                
-                    let popup = document.createElement('div');
-                    popup.id = 'voice-search-popup';
-                    popup.innerHTML = `
-                      <div class="voice-popup-inner">
-                        <div>
-                          <strong style="color:#ff5e62;">Voice Search Results:</strong><br>
-                          ${
-                            words.length
-                              ? `<span style="color: #ff944f">${[...new Set(words)].join(', ')}</span> found and highlighted on this page.`
-                              : '<span style="color:#ff5e62;">No matches found.</span>'
-                          }
-                        </div>
-                        <button id="close-voice-popup">Close</button>
-                      </div>
-                    `;
-                    document.body.appendChild(popup);
-                
-                    document.getElementById('close-voice-popup').onclick = () => popup.remove();
+                    // Optionally, show a popup or toast here if you want
                   }
                 } else {
                   // Optionally, show a message if not supported
                   // alert('Sorry, your browser does not support speech recognition.');
                 }
                 </script>
+                
                 
         </body>
 
